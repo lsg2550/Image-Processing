@@ -1,7 +1,7 @@
 package display.gui;
 
-import display.formatting.ButtonDisplay;
 import display.formatting.MenuDisplay;
+import display.formatting.TextDisplay;
 import operations.handlers.GenerateNegativeImageHandler;
 import operations.handlers.UploadImageHandler;
 import operations.handlers.GenerateHistogramHandler;
@@ -14,9 +14,7 @@ import operations.handlers.ClearHandler;
 import operations.handlers.MoveImageHandler;
 import java.awt.image.BufferedImage;
 import java.io.File;
-import javafx.geometry.Pos;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
@@ -24,11 +22,12 @@ import javafx.scene.control.SeparatorMenuItem;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
+import operations.handlers.GenerateGradientHandler;
 import operations.handlers.GeneratePixelateHandler;
+import operations.handlers.GenerateRotateHandler;
 
 public class GUI extends BorderPane {
 
@@ -39,19 +38,7 @@ public class GUI extends BorderPane {
     protected static ImageView inputImageView = new ImageView(),
             outputImageView = new ImageView();
 
-    //Buttons
-    protected static Button clear = new Button("Clear"),
-            saveImage = new Button("Save Image"), //Saves Converted Image
-            moveImage = new Button("Move Image"), //Moves Converted Image to Original Image
-            createHistogram = new Button("Histogram"), //Creates Histograms for Original & Converted Image
-            createGrayImage = new Button("Gray Image"), //Creates Gray Image from Original Image
-            createMaskingImage = new Button("Mask Image"), //Creates a masked image from Original Image
-            createContrastStretch = new Button("Contrast Stretch"), //Creates a contrast stretched image from Original Image
-            createNegativeImage = new Button("Negative Image"), //Creates a negative image from Original Image
-            createEqualizedImage = new Button("Equalize Image"), //Creates an equalized image from Original Image
-            createPixelatedImage = new Button("Pixelate Image"); //Pixelate Image
-
-    //Will move from buttons to menu bar
+    //MenuItems
     protected static MenuItem fClear = new MenuItem("Clear"),
             fSave = new MenuItem("Save Image"),
             fMove = new MenuItem("Move Image"),
@@ -61,7 +48,9 @@ public class GUI extends BorderPane {
             cContrastStretch = new MenuItem("Contrast Stretch"),
             cNegativeImage = new MenuItem("Negative Image"),
             cEqualizedImage = new MenuItem("Equalize Image"),
-            cPixelatedImage = new MenuItem("Pixelate Image");
+            cPixelatedImage = new MenuItem("Pixelate Image"),
+            cGradientImage = new MenuItem("Gradient Image"),
+            cRotateImage = new MenuItem("Rotate Image");
 
     //File
     protected static File file;
@@ -75,132 +64,115 @@ public class GUI extends BorderPane {
 
     private void UI(Stage stage) {
         //Nodes
-        /*
+        VBox inputOutputResults = new VBox(0);
         MenuBar menuBar = new MenuBar();
-        Menu file = new Menu("File");
-        Menu imgOp = new Menu("Operations");
-        MenuItem fOpen = new MenuItem("Open");
-        menuBar.getMenus().addAll(file, imgOp);
-        file.getItems().addAll(fOpen, new SeparatorMenuItem(), fMove, fSave, fClear);
-        imgOp.getItems().addAll(cHistogram, new SeparatorMenuItem(), cGrayImage, cNegativeImage, cContrastStretch, cEqualizedImage, cMaskingImage);
-        new MenuDisplay(fMove, fSave, fClear, cHistogram, cGrayImage, cNegativeImage, cContrastStretch, cEqualizedImage, cMaskingImage);
-        fOpen.setOnAction(e ->{
-            UploadImageHandler.handle(e);
-        });
-        */
-        VBox inputOutputResults = new VBox();
-        VBox imageButtons = new VBox(10);
-        VBox tempBottom = new VBox(10);
-        VBox tempRight = new VBox(10);
-        Scene scene = new Scene(this, 1024, 600);
+        Menu mFile = new Menu("_File"),
+                mImgOp = new Menu("_Operations"),
+                mAbout = new Menu("_Help");
+        MenuItem fOpen = new MenuItem("Open Image"),
+                hAbout = new MenuItem("Help");
+        mFile.setMnemonicParsing(true);
+        mImgOp.setMnemonicParsing(true);
+        mAbout.setMnemonicParsing(true);
+        menuBar.getMenus().addAll(mFile, mImgOp, mAbout);
+        mFile.getItems().addAll(fOpen, new SeparatorMenuItem(), fMove, fSave, fClear);
+        mImgOp.getItems().addAll(cHistogram, new SeparatorMenuItem(), cGrayImage,
+                cNegativeImage, cContrastStretch, cEqualizedImage, cMaskingImage,
+                cGradientImage, cRotateImage);
+        mAbout.getItems().add(hAbout);
 
         //VBox Center
-        Text original = new Text("Original Image");
-        Text converted = new Text("Converted Image");
-        inputOutputResults.setStyle("-fx-border-style: solid;"
+        Text original = new Text("Original Image"),
+                converted = new Text("Converted Image");
+        inputOutputResults.setStyle(
+                "-fx-border-style: solid;"
                 + "-fx-border-width: 2;"
                 + "-fx-border-insets: 5;"
                 + "-fx-border-radius: 5;"
                 + "-fx-border-color: black;"
-                + "-fx-alignment: center;");
-        inputOutputResults.getChildren().addAll(original, inputImageView,
-                converted, outputImageView);
+                + "-fx-alignment: center;"
+        );
+        inputOutputResults.getChildren().addAll(original, inputImageView, converted, outputImageView);
         inputOutputResults.setMinSize(0, 0);
-
-        //VBox Left
-        Text leftTitle = new Text("Image Operations");
-        Button uploadImage = new Button("Upload Image");
-        uploadImage.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE);
-        imageButtons.setAlignment(Pos.TOP_CENTER);
-        imageButtons.setPrefWidth(128);
-        imageButtons.getChildren().addAll(leftTitle, uploadImage, createGrayImage,
-                createNegativeImage, createContrastStretch, createMaskingImage,
-                createEqualizedImage);
-
-        //VBox Right
-        Text rightTitle = new Text("Extra Options");
-        tempRight.setPrefWidth(128);
-        tempRight.setAlignment(Pos.TOP_CENTER);
-        tempRight.getChildren().addAll(rightTitle, createHistogram, saveImage,
-                moveImage, clear);
-
-        //VBox Bottom
-        tempBottom.setPrefSize(0, 0);
-
-        //Text: Left VBox/Center VBox/Right VBox
-        setStyle(leftTitle);
-        setStyle(rightTitle);
-        setStyle(original);
-        setStyle(converted);
+        inputOutputResults.maxHeightProperty().bind(this.heightProperty().subtract(menuBar.getHeight()));
+        inputOutputResults.maxWidthProperty().bind(this.widthProperty());
+        TextDisplay.setStyle(original, converted);
 
         //Image: Input & OutPut
-        inputImageView.fitHeightProperty().bind(this.heightProperty().multiply(0.44));
+        inputImageView.fitHeightProperty().bind(inputOutputResults.heightProperty().multiply(0.45));
         inputImageView.fitWidthProperty().bind(inputOutputResults.widthProperty().multiply(0.50));
-        outputImageView.fitHeightProperty().bind(this.heightProperty().multiply(0.44));
+        outputImageView.fitHeightProperty().bind(inputOutputResults.heightProperty().multiply(0.45));
         outputImageView.fitWidthProperty().bind(inputOutputResults.widthProperty().multiply(0.50));
 
-        //Buttons & Button Events
-        new ButtonDisplay(createContrastStretch, createEqualizedImage,
-                createPixelatedImage, createNegativeImage, createMaskingImage, createGrayImage,
-                createHistogram, saveImage, moveImage, clear);
-        uploadImage.setOnAction(e -> {
-            UploadImageHandler.handle(e);
+        //MenuBar & Menus
+        MenuDisplay.MenuDisplay(true, fMove, fSave, fClear, cHistogram, cGrayImage,
+                cNegativeImage, cContrastStretch, cEqualizedImage, cMaskingImage,
+                cGradientImage, cRotateImage);
+        MenuDisplay.MenuDisplay(menuBar);
+
+        //Handlers
+        fOpen.setOnAction(e -> {
+            UploadImageHandler.handle();
         });
-        createGrayImage.setOnAction(e -> {
-            GenerateGrayImageHandler.handle(e);
+        cGrayImage.setOnAction(e -> {
+            GenerateGrayImageHandler.handle();
         });
-        createNegativeImage.setOnAction(e -> {
-            GenerateNegativeImageHandler.handle(e);
+        cNegativeImage.setOnAction(e -> {
+            GenerateNegativeImageHandler.handle();
         });
-        saveImage.setOnAction(e -> {
-            SaveImageHandler.handle(e);
+        fSave.setOnAction(e -> {
+            SaveImageHandler.handle();
         });
-        createContrastStretch.setOnAction(e -> {
-            GenerateContrastStretchHandler.handle(e);
+        cContrastStretch.setOnAction(e -> {
+            GenerateContrastStretchHandler.handle();
         });
-        createHistogram.setOnAction(e -> {
-            GenerateHistogramHandler.handle(e);
+        cHistogram.setOnAction(e -> {
+            GenerateHistogramHandler.handle();
         });
-        createMaskingImage.setOnAction(e -> {
-            GenerateConvolutionHandler.handle(e);
+        cMaskingImage.setOnAction(e -> {
+            GenerateConvolutionHandler.handle();
         });
-        createEqualizedImage.setOnAction(e -> {
-            GenerateEqualizedImageHandler.handle(e);
+        cEqualizedImage.setOnAction(e -> {
+            GenerateEqualizedImageHandler.handle();
         });
-        createPixelatedImage.setOnAction(e -> {
-            GeneratePixelateHandler.handle(e);
+        cPixelatedImage.setOnAction(e -> {
+            GeneratePixelateHandler.handle();
         });
-        moveImage.setOnAction(e -> {
-            MoveImageHandler.handle(e);
+        cGradientImage.setOnAction(e -> {
+            GenerateGradientHandler.handle();
         });
-        clear.setOnAction(e -> {
-            ClearHandler.handle(e);
+        cRotateImage.setOnAction(e -> {
+            GenerateRotateHandler.handle();
+        });
+        fMove.setOnAction(e -> {
+            MoveImageHandler.handle();
+        });
+        fClear.setOnAction(e -> {
+            ClearHandler.handle();
+        });
+        hAbout.setOnAction(e -> {
+            ReadmeGUI.handle();
         });
 
+        GenerateContrastStretchHandler.initialize();
+        GenerateConvolutionHandler.initialize();
+        GenerateGradientHandler.initialize();
+        GenerateRotateHandler.initialize();
+        ReadmeGUI.initialize();
+
         //BorderPane
-        //this.setTop(menuBar);
+        this.setTop(menuBar);
         this.setCenter(inputOutputResults);
-        this.setLeft(imageButtons);
-        this.setRight(tempRight);
-        this.setBottom(tempBottom);
-        this.setStyle("-fx-background-color: #629377");
-        this.prefHeightProperty().bind(scene.heightProperty());
-        this.prefWidthProperty().bind(scene.widthProperty());
+        this.setStyle("-fx-background-color: #0F3B5F");
+        this.prefHeightProperty().bind(stage.heightProperty());
+        this.prefWidthProperty().bind(stage.widthProperty());
 
         //Scene & Stage
         //scene.setCursor(new ImageCursor(ICON));
+        Scene scene = new Scene(this, 1024, 600);
         stage.setScene(scene);
         stage.setTitle("Digital Image Processing");
         stage.getIcons().add(ICON);
         stage.show();
-    }
-
-    private Text setStyle(Text text) {
-        text.setStyle("-fx-fill: black;"
-                + "-fx-font-weight: bold;"
-                + "-fx-font-size: 12px;"
-                + "-fx-font-smoothing-type: lcd;"
-                + "-fx-text-alignment: center;");
-        return text;
     }
 }

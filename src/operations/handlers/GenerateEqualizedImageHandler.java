@@ -3,13 +3,12 @@ package operations.handlers;
 import display.gui.GUI;
 import java.awt.image.BufferedImage;
 import javafx.embed.swing.SwingFXUtils;
-import javafx.event.ActionEvent;
 import operations.operators.Histogram;
 import operations.operators.ImageIo;
 
 public class GenerateEqualizedImageHandler extends GUI {
 
-    public static void handle(ActionEvent e) {
+    public static void handle() {
         equalize();
     }
 

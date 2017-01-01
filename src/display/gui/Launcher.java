@@ -7,7 +7,7 @@ public class Launcher extends Application {
 
     @Override
     public void start(Stage primaryStage) {
-        new GUI(primaryStage);
+        GUI gui = new GUI(primaryStage);
     }
 
     public static void main(String[] args) {

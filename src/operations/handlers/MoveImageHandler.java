@@ -2,13 +2,12 @@ package operations.handlers;
 
 import display.gui.GUI;
 import java.util.Optional;
-import javafx.event.ActionEvent;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
 
 public class MoveImageHandler extends GUI {
 
-    public static void handle(ActionEvent e) {
+    public static void handle() {
         move();
     }
 

@@ -1,6 +1,6 @@
 package operations.handlers;
 
-import display.formatting.ButtonDisplay;
+import display.formatting.MenuDisplay;
 import display.gui.GUI;
 import java.util.Optional;
 import javafx.event.ActionEvent;
@@ -9,7 +9,7 @@ import javafx.scene.control.ButtonType;
 
 public class ClearHandler extends GUI {
 
-    public static void handle(ActionEvent e) {
+    public static void handle() {
         clear();
     }
 
@@ -22,9 +22,9 @@ public class ClearHandler extends GUI {
         Optional<ButtonType> result = alert.showAndWait();
 
         if (result.get() == ButtonType.APPLY) {
-            new ButtonDisplay(createContrastStretch, createEqualizedImage,
-                    createNegativeImage, createMaskingImage, createGrayImage,
-                    createHistogram, saveImage, moveImage, clear);
+            MenuDisplay.MenuDisplay(true, fMove, fSave, fClear, cHistogram, cGrayImage,
+                    cNegativeImage, cContrastStretch, cEqualizedImage, cMaskingImage,
+                    cGradientImage, cRotateImage);
             outputImageView.setImage(null);
             inputImageView.setImage(null);
             bufferedImageC = null;

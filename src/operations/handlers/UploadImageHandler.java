@@ -1,10 +1,9 @@
 package operations.handlers;
 
-import display.formatting.ButtonDisplay;
+import display.formatting.MenuDisplay;
 import display.gui.GUI;
 import java.io.File;
 import javafx.embed.swing.SwingFXUtils;
-import javafx.event.ActionEvent;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
 import javafx.stage.FileChooser;
@@ -12,7 +11,7 @@ import operations.operators.ImageIo;
 
 public class UploadImageHandler extends GUI {
 
-    public static void handle(ActionEvent event) {
+    public static void handle() {
         upImage();
     }
 
@@ -43,9 +42,9 @@ public class UploadImageHandler extends GUI {
     }
 
     private static void updateGUI() {
-        new ButtonDisplay(false, createContrastStretch, createEqualizedImage,
-                createNegativeImage, createMaskingImage, createGrayImage, 
-                createHistogram, saveImage, moveImage, clear);
+        MenuDisplay.MenuDisplay(false, fMove, fSave, fClear, cHistogram, cGrayImage,
+                cNegativeImage, cContrastStretch, cEqualizedImage, cMaskingImage,
+                cGradientImage, cRotateImage);
         inputImageView.setImage(inputImage);
         outputImageView.setImage(null);
         bufferedImageC = null;

@@ -3,13 +3,12 @@ package operations.handlers;
 import display.gui.GUI;
 import java.awt.image.BufferedImage;
 import javafx.embed.swing.SwingFXUtils;
-import javafx.event.ActionEvent;
 import operations.operators.ImageIo;
 import operations.operators.ImageNegative;
 
 public class GenerateNegativeImageHandler extends GUI {
 
-    public static void handle(ActionEvent event) {
+    public static void handle() {
         generateNegative();
     }
 

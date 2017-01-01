@@ -3,7 +3,6 @@ package operations.handlers;
 import display.gui.GUI;
 import java.awt.image.BufferedImage;
 import javafx.embed.swing.SwingFXUtils;
-import javafx.event.ActionEvent;
 import javafx.geometry.Orientation;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -20,7 +19,13 @@ import operations.operators.ImageIo;
 
 public class GenerateHistogramHandler extends GUI {
 
-    public static void handle(ActionEvent e) {
+    private static Stage cStage = new Stage();
+
+    public static void handle() {
+        cStage.show();
+    }
+
+    public static void initialize() {
         displayChoiceGUI();
     }
 
@@ -29,7 +34,6 @@ public class GenerateHistogramHandler extends GUI {
         VBox vb = new VBox();
         TilePane tb = new TilePane(Orientation.HORIZONTAL);
         Scene scene = new Scene(vb, 200, 50);
-        Stage cStage = new Stage();
         Button orig = new Button("Original"), conv = new Button("Converted");
 
         //UI
@@ -59,7 +63,6 @@ public class GenerateHistogramHandler extends GUI {
         cStage.setResizable(false);
         cStage.getIcons().add(ICON);
         cStage.setScene(scene);
-        cStage.show();
     }
 
     private static void displayHUI(Image img, ImageView iv, boolean choice) {

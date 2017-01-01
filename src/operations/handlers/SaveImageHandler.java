@@ -11,7 +11,7 @@ import javax.imageio.ImageIO;
 
 public class SaveImageHandler extends GUI {
 
-    public static void handle(ActionEvent e) {
+    public static void handle() {
         saveImage();
     }
 

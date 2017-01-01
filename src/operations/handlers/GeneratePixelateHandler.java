@@ -4,7 +4,6 @@ import display.gui.GUI;
 import java.awt.image.BufferedImage;
 import java.util.Optional;
 import javafx.embed.swing.SwingFXUtils;
-import javafx.event.ActionEvent;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
 import operations.operators.ImageIo;
@@ -12,7 +11,7 @@ import operations.operators.Pixelate;
 
 public class GeneratePixelateHandler extends GUI {
 
-    public static void handle(ActionEvent e) {
+    public static void handle() {
         pixelate();
     }
 

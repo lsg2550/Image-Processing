@@ -8,7 +8,7 @@ import operations.operators.ImageIo;
 
 public class GenerateGrayImageHandler extends GUI {
 
-    public static void handle(ActionEvent e) {
+    public static void handle() {
         generateGray();
     }
 

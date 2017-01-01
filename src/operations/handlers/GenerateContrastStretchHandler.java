@@ -3,12 +3,10 @@ package operations.handlers;
 import display.gui.GUI;
 import java.awt.image.BufferedImage;
 import javafx.embed.swing.SwingFXUtils;
-import javafx.event.ActionEvent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
-import javafx.scene.input.KeyCode;
 import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Region;
@@ -18,15 +16,17 @@ import operations.operators.ImageIo;
 
 public class GenerateContrastStretchHandler extends GUI {
 
-    private static double a = 0, b = 0, ya = 0, yb = 0, alpha = 0, beta = 0, gamma = 0;
+    private static Stage dStage = new Stage();
 
-    public static void handle(ActionEvent event) {
-        dialogUI();
-        csNoLUT();
-        //csLUT();
+    public static void handle() {
+        dStage.show();
     }
 
-    private static void dialogUI() {
+    public static void initialize() {
+        contrastStretchGUI();
+    }
+
+    private static void contrastStretchGUI() {
         //Text/Label/TextField/Button
         Text txt = new Text("Please Enter Contrast Stretching Values:");
         Label lbl1 = new Label("Values for 'a': ");
@@ -48,7 +48,6 @@ public class GenerateContrastStretchHandler extends GUI {
         //UI
         GridPane gp = new GridPane();
         Scene scene = new Scene(gp, 300, 235);
-        Stage dStage = new Stage();
         gp.setHgap(10);
         gp.setVgap(3);
         gp.add(txt, 0, 0);
@@ -75,40 +74,30 @@ public class GenerateContrastStretchHandler extends GUI {
 
         //Handling
         btn.setOnAction(e -> {
-            a = Double.parseDouble(txtF1.getText());
-            b = Double.parseDouble(txtF2.getText());
-            ya = Double.parseDouble(txtF3.getText());
-            yb = Double.parseDouble(txtF4.getText());
-            alpha = Double.parseDouble(txtF5.getText());
-            beta = Double.parseDouble(txtF6.getText());
-            gamma = Double.parseDouble(txtF7.getText());
-            dStage.close();
-        });
-
-        btn.setOnKeyReleased(e -> {
-            if (e.getCode() == KeyCode.ENTER) {
-                a = Double.parseDouble(txtF1.getText());
-                b = Double.parseDouble(txtF2.getText());
-                ya = Double.parseDouble(txtF3.getText());
-                yb = Double.parseDouble(txtF4.getText());
-                alpha = Double.parseDouble(txtF5.getText());
-                beta = Double.parseDouble(txtF6.getText());
-                gamma = Double.parseDouble(txtF7.getText());
-                dStage.close();
+            try {
+                csNoLUT(Double.parseDouble(txtF1.getText()),
+                        Double.parseDouble(txtF2.getText()),
+                        Double.parseDouble(txtF3.getText()),
+                        Double.parseDouble(txtF4.getText()),
+                        Double.parseDouble(txtF5.getText()),
+                        Double.parseDouble(txtF6.getText()),
+                        Double.parseDouble(txtF7.getText())
+                );
+            } catch (Exception ex) {
+                csNoLUT(0, 0, 0, 0, 0, 0, 0);
             }
+            dStage.close();
         });
 
         dStage.setTitle("Contrast Stretch Values");
         dStage.getIcons().add(ICON);
         dStage.setScene(scene);
         dStage.setResizable(false);
-        dStage.showAndWait();
     }
 
-    private static void csNoLUT() {
+    private static void csNoLUT(double a, double b, double ya, double yb, double alpha, double beta, double gamma) {
         BufferedImage temp = ImageIo.toGray(bufferedImage);
         byte[][] grayByteData = ImageIo.getGrayByteImageArray2DFromBufferedImage(temp);
-        //double m = (yb - ya) / (b - a);
 
         for (int i = 0; i < grayByteData.length; i++) {
             for (int j = 0; j < grayByteData[0].length; j++) {
@@ -128,13 +117,13 @@ public class GenerateContrastStretchHandler extends GUI {
         outputImageView.setImage(outputImage);
     }
 
+    /*
     private static void csLUT() {
         BufferedImage temp = ImageIo.toGray(bufferedImage);
         byte[][] grayByteData = ImageIo.getGrayByteImageArray2DFromBufferedImage(temp);
         byte[] grayByteDataS = ImageIo.getGrayByteImageArray1DFromBufferedImage(temp);
-        double m = (yb - ya) / (b - a);
 
-        int[] lut = new int[grayByteDataS.length];
+        int[] lut = new int[256];
         for (int i = 0; i < lut.length; i++) {
             lut[i] = grayByteDataS[i];
         }
@@ -155,5 +144,5 @@ public class GenerateContrastStretchHandler extends GUI {
             outputImage = SwingFXUtils.toFXImage(temp, null);
             outputImageView.setImage(outputImage);
         }
-    }
+    }*/
 }

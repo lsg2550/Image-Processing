@@ -5,7 +5,6 @@ import display.formatting.ButtonDisplay;
 import display.gui.GUI;
 import java.awt.image.BufferedImage;
 import javafx.embed.swing.SwingFXUtils;
-import javafx.event.ActionEvent;
 import javafx.geometry.Orientation;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -25,6 +24,7 @@ import operations.operators.Noise;
 
 public class GenerateConvolutionHandler extends GUI {
 
+    private static Stage cnvStage = new Stage();
     private static final float[][][] MASKS = {
         //[0] == Blur
         {{0.04f, 0.04f, 0.04f, 0.04f, 0.04f},
@@ -68,20 +68,25 @@ public class GenerateConvolutionHandler extends GUI {
         {0, 1, 0},
         {0, 0, 0}}};
 
-    private static final CheckBox CBGN = new CheckBox("Add Noise"), CBC = new CheckBox("Color"), CBG = new CheckBox("Gray");
+    private static final CheckBox CBGN = new CheckBox("Add Noise"),
+            CBC = new CheckBox("Color"),
+            CBG = new CheckBox("Gray");
     private static final TextField VARIANCE = new TextField("Variance");
 
-    public static void handle(ActionEvent e) {
-        convoGUI();
+    public static void handle() {
+        cnvStage.show();
     }
 
-    private static void convoGUI() {
+    public static void initialize(){
+        convoGUI();
+    }
+    
+    private static void convoGUI(){
         /*Nodes*/
         VBox vb = new VBox();
         HBox hb = new HBox(5);
         TilePane tp = new TilePane(Orientation.HORIZONTAL);
         Scene scene = new Scene(vb, 475, 125);
-        Stage cnvStage = new Stage();
         Button maskBlur = new Button("Blur (Smoothing)"),
                 maskDerivativeH = new Button("Differentiation(Horizontal)"),
                 maskDerivativeV = new Button("Differentiation(Vertical)"),
@@ -94,10 +99,6 @@ public class GenerateConvolutionHandler extends GUI {
         CBGN.setIndeterminate(false);
         CBC.setIndeterminate(false);
         CBG.setIndeterminate(false);
-        CBGN.setSelected(false);
-        CBC.setSelected(false);
-        CBG.setSelected(false);
-        VARIANCE.setVisible(false);
 
         /*UI*/
         hb.getChildren().addAll(CBC, CBG, CBGN, VARIANCE);
@@ -114,95 +115,27 @@ public class GenerateConvolutionHandler extends GUI {
         VARIANCE.setMaxWidth(75);
 
         /*Buttons*/
-        ButtonDisplay buttonDisplay = new ButtonDisplay(maskBlur, maskDerivativeH, maskDerivativeV, maskIntegral,
+        ButtonDisplay.ButtonDisplay(maskBlur, maskDerivativeH, maskDerivativeV, maskIntegral,
+                maskIntegralHeavy, mask2x2, mask4x4, mask6x6, maskNothing);
+        ButtonDisplay.ButtonDisplay(true, maskBlur, maskDerivativeH, maskDerivativeV, maskIntegral,
                 maskIntegralHeavy, mask2x2, mask4x4, mask6x6, maskNothing);
 
         /*Listener*/
-        Listeners checkBoxColor = new Listeners(CBC, CBG, CBGN, maskNothing, VARIANCE, maskBlur, maskDerivativeH, maskDerivativeV, maskIntegral,
+        Listeners.Listeners(CBC, CBG, CBGN, maskNothing, VARIANCE, maskBlur, maskDerivativeH, maskDerivativeV, maskIntegral,
                 maskIntegralHeavy, mask2x2, mask4x4, mask6x6);
-        Listeners checkBoxGray = new Listeners(CBG, CBC, CBGN, maskNothing, VARIANCE, maskBlur, maskDerivativeH, maskDerivativeV, maskIntegral,
+        Listeners.Listeners(CBG, CBC, CBGN, maskNothing, VARIANCE, maskBlur, maskDerivativeH, maskDerivativeV, maskIntegral,
                 maskIntegralHeavy, mask2x2, mask4x4, mask6x6);
-        Listeners checkBoxGN = new Listeners(CBGN, CBG, CBC, maskNothing, VARIANCE);
-        
+        Listeners.Listeners(CBGN, CBG, CBC, maskNothing, VARIANCE);
+
         /*Handlers*/
-        maskBlur.setOnAction(e -> {
-            if (CBC.isSelected()) {
-                convolution(MASKS[0]);
-            } else {
-                convolution(MASKS[0]);
-            }
-            cnvStage.close();
-        });
-        maskDerivativeH.setOnAction(e -> {
-            if (CBC.isSelected()) {
-                convolution(MASKS[1]);
-            } else {
-                convolution(MASKS[1]);
-            }
-            cnvStage.close();
-        });
-        maskDerivativeV.setOnAction(e -> {
-            if (CBC.isSelected()) {
-                convolution(MASKS[2]);
-            } else {
-                convolution(MASKS[2]);
-            }
-            cnvStage.close();
-        });
-        maskIntegral.setOnAction(e -> {
-            if (CBC.isSelected()) {
-                convolution(MASKS[3]);
-            } else {
-                convolution(MASKS[3]);
-            }
-            cnvStage.close();
-        });
-        maskIntegralHeavy.setOnAction(e -> {
-            if (CBC.isSelected()) {
-                convolution(MASKS[4]);
-            } else {
-                convolution(MASKS[4]);
-            }
-            cnvStage.close();
-        });
-        mask2x2.setOnAction(e -> {
-            if (CBC.isSelected()) {
-                convolution(MASKS[5]);
-            } else {
-                convolution(MASKS[5]);
-            }
-            cnvStage.close();
-        });
-        mask4x4.setOnAction(e -> {
-            if (CBC.isSelected()) {
-                convolution(MASKS[6]);
-            } else {
-                convolution(MASKS[6]);
-            }
-            cnvStage.close();
-        });
-        mask6x6.setOnAction(e -> {
-            if (CBC.isSelected()) {
-                convolution(MASKS[7]);
-            } else {
-                convolution(MASKS[7]);
-            }
-            cnvStage.close();
-        });
-        maskNothing.setOnAction(e -> {
-            if (CBC.isSelected()) {
-                convolution(MASKS[8]);
-            } else {
-                convolution(MASKS[8]);
-            }
-            cnvStage.close();
-        });
+        setOnAction(cnvStage, maskBlur, maskDerivativeH, maskDerivativeV, maskIntegral,
+                maskIntegralHeavy, mask2x2, mask4x4, mask6x6, maskNothing);
+
         /*Stage*/
         cnvStage.setTitle("Convolution");
         cnvStage.setResizable(false);
         cnvStage.getIcons().add(ICON);
         cnvStage.setScene(scene);
-        cnvStage.show();
     }
 
     private static void convolution(float[][] hMask) {
@@ -247,6 +180,24 @@ public class GenerateConvolutionHandler extends GUI {
         outputImageView.setImage(outputImage);
     }
 
+    private static void setOnAction(Stage stage, Button... button) {
+        for (int i = 0; i < button.length; i++) {
+            int temp = i;
+            button[i].setOnAction(e -> {
+                if (CBGN.isSelected()) {
+                    convolution(MASKS[temp]);
+                } else {
+                    convolution(MASKS[temp]);
+                }
+                CBGN.setSelected(false);
+                CBC.setSelected(false);
+                CBG.setSelected(false);
+                VARIANCE.setVisible(false);
+                stage.close();
+            });
+        }
+    }
+
     private static Object[] gaussianNoiseConvolveC(Object[] object) {
         return Noise.addGaussianNoise_3(object, genGaussianNoise());
     }
@@ -256,7 +207,7 @@ public class GenerateConvolutionHandler extends GUI {
     }
 
     private static byte[][] genGaussianNoise() {
-        if (TryParse.tryParse(VARIANCE.getText()) == false) {
+        if (TryParse.tryIntParse(VARIANCE.getText()) == false) {
             return Noise.createGaussionNoise(0, 500, bufferedImage.getWidth(), bufferedImage.getHeight());
         } else {
             return Noise.createGaussionNoise(0, Integer.parseInt(VARIANCE.getText()), bufferedImage.getWidth(), bufferedImage.getHeight());
