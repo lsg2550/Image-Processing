@@ -7,14 +7,18 @@ import javafx.scene.Scene;
 import javafx.scene.control.TextArea;
 import javafx.stage.Stage;
 
+/*
+*
+* Author: Luis
+ */
 public class ReadmeGUI extends GUI {
 
     private static Stage hStage = new Stage();
-    
-    public static void initialize(){
+
+    public static void initialize() {
         readme();
     }
-    
+
     public static void handle() {
         hStage.show();
     }
@@ -25,7 +29,7 @@ public class ReadmeGUI extends GUI {
         Scene scene = new Scene(ta, 800, 600);
         //Read from File
         try {
-            Scanner s = new Scanner(new File("src/display/help/about.txt"));
+            Scanner s = new Scanner(new File("src/display/readme/readme.txt"));
             while (s.hasNext()) {
                 ta.appendText(s.nextLine() + "\n");
             }
@@ -35,7 +39,7 @@ public class ReadmeGUI extends GUI {
 
         //TextArea
         ta.setEditable(false);
-        
+
         //Stage
         hStage.setScene(scene);
         hStage.setTitle("Help");

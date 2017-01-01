@@ -3,6 +3,10 @@ package display.formatting;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
 
+/*
+*
+* Author: Luis
+ */
 public class MenuDisplay {
 
     public static void MenuDisplay(MenuItem... menuItem) {
@@ -11,13 +15,13 @@ public class MenuDisplay {
         }
     }
 
-    public static void  MenuDisplay(Boolean bool, MenuItem... menuItem) {
+    public static void MenuDisplay(Boolean bool, MenuItem... menuItem) {
         for (MenuItem mItem : menuItem) {
             mItem.setDisable(bool);
         }
     }
 
-    public static void  MenuDisplay(MenuBar... menuBar) {
+    public static void MenuDisplay(MenuBar... menuBar) {
         for (MenuBar mBar : menuBar) {
             mBar.setStyle("-fx-background-color: #CC9752;"
                     + "-fx-font-weight: bolder;"

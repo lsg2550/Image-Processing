@@ -9,6 +9,10 @@ import javafx.scene.control.ButtonType;
 import operations.operators.ImageIo;
 import operations.operators.Pixelate;
 
+/*
+*
+* Author: Luis
+ */
 public class GeneratePixelateHandler extends GUI {
 
     public static void handle() {
@@ -33,15 +37,13 @@ public class GeneratePixelateHandler extends GUI {
             byte[][] bByteData = (byte[][]) byteArrays[2];
 
             Pixelate pixelate = new Pixelate();
-            pixelate.blurImage(temp, rByteData, gByteData, bByteData, 16, 4);
+            pixelate.blurImage(rByteData, gByteData, bByteData, 48, 4);
 
             rByteData = pixelate.getrByteData();
             gByteData = pixelate.getgByteData();
             bByteData = pixelate.getbByteData();
 
-            temp = ImageIo.setColorByteImageArray2DToBufferedImage(rByteData, gByteData, bByteData);
-
-            bufferedImageC = temp;
+            bufferedImageC = temp = ImageIo.setColorByteImageArray2DToBufferedImage(rByteData, gByteData, bByteData);
             outputImage = SwingFXUtils.toFXImage(temp, null);
             outputImageView.setImage(outputImage);
         }

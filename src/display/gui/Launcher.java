@@ -3,6 +3,10 @@ package display.gui;
 import javafx.application.Application;
 import javafx.stage.Stage;
 
+/*
+*
+* Author: Luis
+ */
 public class Launcher extends Application {
 
     @Override

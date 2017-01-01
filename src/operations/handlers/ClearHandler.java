@@ -3,10 +3,13 @@ package operations.handlers;
 import display.formatting.MenuDisplay;
 import display.gui.GUI;
 import java.util.Optional;
-import javafx.event.ActionEvent;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
 
+/*
+*
+* Author: Luis
+ */
 public class ClearHandler extends GUI {
 
     public static void handle() {
@@ -22,9 +25,7 @@ public class ClearHandler extends GUI {
         Optional<ButtonType> result = alert.showAndWait();
 
         if (result.get() == ButtonType.APPLY) {
-            MenuDisplay.MenuDisplay(true, fMove, fSave, fClear, cHistogram, cGrayImage,
-                    cNegativeImage, cContrastStretch, cEqualizedImage, cMaskingImage,
-                    cGradientImage, cRotateImage);
+            MenuDisplay.MenuDisplay(true, menuItems);
             outputImageView.setImage(null);
             inputImageView.setImage(null);
             bufferedImageC = null;

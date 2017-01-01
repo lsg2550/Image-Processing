@@ -10,6 +10,7 @@ import java.awt.image.BufferedImage;
 import java.awt.image.ComponentColorModel;
 import java.awt.image.DataBuffer;
 import java.awt.image.DataBufferByte;
+import java.awt.image.DataBufferInt;
 import java.awt.image.Raster;
 import java.awt.image.SampleModel;
 import java.awt.image.WritableRaster;
@@ -70,7 +71,13 @@ public class ImageIo {
         //getBufferedImageType(image, "getColorByteImageArray2DFromBufferedImage");
         int m, n, i, i4, pixelLength;
         //System.out.println("Row_Siz= " + Rows + " Cols_Size = " + Cols);
-        byteData_1d = ((DataBufferByte) image.getRaster().getDataBuffer()).getData();
+        try {
+            byteData_1d = ((DataBufferByte) image.getRaster().getDataBuffer()).getData();
+        } catch (ClassCastException e) {
+            image = new BufferedImage(Cols, Rows, BufferedImage.TYPE_3BYTE_BGR);
+            byteData_1d = ((DataBufferByte) image.getRaster().getDataBuffer()).getData();
+        }
+
         final boolean hasAlphaChannel = image.getAlphaRaster() != null;
         if (hasAlphaChannel) {
             pixelLength = 4; //a,r,g,b;

@@ -2,6 +2,11 @@ package display.formatting;
 
 import javafx.scene.control.Button;
 
+
+/*
+*
+* Author: Luis
+ */
 public class ButtonDisplay {
 
     //Init for most buttons from GUI and GenerateConvolutionHandler

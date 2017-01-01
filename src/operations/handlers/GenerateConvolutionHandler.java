@@ -22,6 +22,10 @@ import operations.operators.Convolution;
 import operations.operators.ImageIo;
 import operations.operators.Noise;
 
+/*
+*
+* Author: Luis
+ */
 public class GenerateConvolutionHandler extends GUI {
 
     private static Stage cnvStage = new Stage();
@@ -77,11 +81,11 @@ public class GenerateConvolutionHandler extends GUI {
         cnvStage.show();
     }
 
-    public static void initialize(){
+    public static void initialize() {
         convoGUI();
     }
-    
-    private static void convoGUI(){
+
+    private static void convoGUI() {
         /*Nodes*/
         VBox vb = new VBox();
         HBox hb = new HBox(5);

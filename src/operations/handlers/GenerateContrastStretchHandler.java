@@ -14,6 +14,10 @@ import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import operations.operators.ImageIo;
 
+/*
+*
+* Author: Luis
+ */
 public class GenerateContrastStretchHandler extends GUI {
 
     private static Stage dStage = new Stage();

@@ -16,6 +16,10 @@ import operations.listeners.Listeners;
 import operations.operators.ImageIo;
 import operations.operators.Rotate;
 
+/*
+*
+* Author: Luis
+ */
 public class GenerateRotateHandler extends GUI {
 
     private static Stage rStage = new Stage();

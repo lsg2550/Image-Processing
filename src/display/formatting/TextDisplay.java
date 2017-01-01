@@ -2,6 +2,10 @@ package display.formatting;
 
 import javafx.scene.text.Text;
 
+/*
+*
+* Author: Luis
+ */
 public class TextDisplay {
 
     public static void setStyle(Text... text) {

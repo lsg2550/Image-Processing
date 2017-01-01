@@ -15,6 +15,10 @@ import javafx.stage.Stage;
 import operations.operators.Gradient;
 import operations.operators.ImageIo;
 
+/*
+*
+* Author: Luis
+ */
 public class GenerateGradientHandler extends GUI {
 
     private static Stage gradStage = new Stage();

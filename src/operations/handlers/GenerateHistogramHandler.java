@@ -17,6 +17,10 @@ import javafx.stage.Stage;
 import operations.operators.Histogram;
 import operations.operators.ImageIo;
 
+/*
+*
+* Author: Luis
+ */
 public class GenerateHistogramHandler extends GUI {
 
     private static Stage cStage = new Stage();

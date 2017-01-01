@@ -2,16 +2,16 @@ package display.gui;
 
 import display.formatting.MenuDisplay;
 import display.formatting.TextDisplay;
-import operations.handlers.GenerateNegativeImageHandler;
-import operations.handlers.UploadImageHandler;
+import operations.handlers.GenerateNegativeHandler;
+import operations.handlers.UploadHandler;
 import operations.handlers.GenerateHistogramHandler;
 import operations.handlers.GenerateConvolutionHandler;
-import operations.handlers.SaveImageHandler;
+import operations.handlers.SaveHandler;
 import operations.handlers.GenerateContrastStretchHandler;
-import operations.handlers.GenerateGrayImageHandler;
-import operations.handlers.GenerateEqualizedImageHandler;
+import operations.handlers.GenerateGrayHandler;
+import operations.handlers.GenerateEqualizedHandler;
 import operations.handlers.ClearHandler;
-import operations.handlers.MoveImageHandler;
+import operations.handlers.MoveHandler;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import javafx.scene.Scene;
@@ -26,9 +26,15 @@ import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import operations.handlers.GenerateGradientHandler;
+import operations.handlers.GenerateMorphHandler;
 import operations.handlers.GeneratePixelateHandler;
 import operations.handlers.GenerateRotateHandler;
+import operations.operators.Crop;
 
+/*
+*
+* Author: Luis
+ */
 public class GUI extends BorderPane {
 
     //Images & ImageViewers
@@ -50,7 +56,14 @@ public class GUI extends BorderPane {
             cEqualizedImage = new MenuItem("Equalize Image"),
             cPixelatedImage = new MenuItem("Pixelate Image"),
             cGradientImage = new MenuItem("Gradient Image"),
-            cRotateImage = new MenuItem("Rotate Image");
+            cRotateImage = new MenuItem("Rotate Image"),
+            cMorphImage = new MenuItem("Outline Image"),
+            cCropImage = new MenuItem("Crop Image");
+    
+    //Placed all the menuitems into an array to make it easier to update across whole app
+    protected static MenuItem[] menuItems = {fClear, fSave, fMove, cHistogram,
+        cGrayImage, cMaskingImage, cContrastStretch, cNegativeImage, cEqualizedImage,
+        cPixelatedImage, cGradientImage, cRotateImage, cMorphImage, cCropImage};
 
     //File
     protected static File file;
@@ -64,7 +77,7 @@ public class GUI extends BorderPane {
 
     private void UI(Stage stage) {
         //Nodes
-        VBox inputOutputResults = new VBox(0);
+        VBox inputOutputResults = new VBox();
         MenuBar menuBar = new MenuBar();
         Menu mFile = new Menu("_File"),
                 mImgOp = new Menu("_Operations"),
@@ -78,7 +91,7 @@ public class GUI extends BorderPane {
         mFile.getItems().addAll(fOpen, new SeparatorMenuItem(), fMove, fSave, fClear);
         mImgOp.getItems().addAll(cHistogram, new SeparatorMenuItem(), cGrayImage,
                 cNegativeImage, cContrastStretch, cEqualizedImage, cMaskingImage,
-                cGradientImage, cRotateImage);
+                cPixelatedImage, cGradientImage, cRotateImage, cMorphImage, cCropImage);
         mAbout.getItems().add(hAbout);
 
         //VBox Center
@@ -93,7 +106,6 @@ public class GUI extends BorderPane {
                 + "-fx-alignment: center;"
         );
         inputOutputResults.getChildren().addAll(original, inputImageView, converted, outputImageView);
-        inputOutputResults.setMinSize(0, 0);
         inputOutputResults.maxHeightProperty().bind(this.heightProperty().subtract(menuBar.getHeight()));
         inputOutputResults.maxWidthProperty().bind(this.widthProperty());
         TextDisplay.setStyle(original, converted);
@@ -103,25 +115,25 @@ public class GUI extends BorderPane {
         inputImageView.fitWidthProperty().bind(inputOutputResults.widthProperty().multiply(0.50));
         outputImageView.fitHeightProperty().bind(inputOutputResults.heightProperty().multiply(0.45));
         outputImageView.fitWidthProperty().bind(inputOutputResults.widthProperty().multiply(0.50));
+        inputImageView.setPreserveRatio(true);
+        outputImageView.setPreserveRatio(true);
 
         //MenuBar & Menus
-        MenuDisplay.MenuDisplay(true, fMove, fSave, fClear, cHistogram, cGrayImage,
-                cNegativeImage, cContrastStretch, cEqualizedImage, cMaskingImage,
-                cGradientImage, cRotateImage);
+        MenuDisplay.MenuDisplay(true, menuItems);
         MenuDisplay.MenuDisplay(menuBar);
 
         //Handlers
         fOpen.setOnAction(e -> {
-            UploadImageHandler.handle();
+            UploadHandler.handle();
         });
         cGrayImage.setOnAction(e -> {
-            GenerateGrayImageHandler.handle();
+            GenerateGrayHandler.handle();
         });
         cNegativeImage.setOnAction(e -> {
-            GenerateNegativeImageHandler.handle();
+            GenerateNegativeHandler.handle();
         });
         fSave.setOnAction(e -> {
-            SaveImageHandler.handle();
+            SaveHandler.handle();
         });
         cContrastStretch.setOnAction(e -> {
             GenerateContrastStretchHandler.handle();
@@ -133,7 +145,7 @@ public class GUI extends BorderPane {
             GenerateConvolutionHandler.handle();
         });
         cEqualizedImage.setOnAction(e -> {
-            GenerateEqualizedImageHandler.handle();
+            GenerateEqualizedHandler.handle();
         });
         cPixelatedImage.setOnAction(e -> {
             GeneratePixelateHandler.handle();
@@ -144,8 +156,14 @@ public class GUI extends BorderPane {
         cRotateImage.setOnAction(e -> {
             GenerateRotateHandler.handle();
         });
+        cMorphImage.setOnAction(e -> {
+            GenerateMorphHandler.handler();
+        });
+        cCropImage.setOnAction(e -> {
+            Crop.crop();
+        });
         fMove.setOnAction(e -> {
-            MoveImageHandler.handle();
+            MoveHandler.handle();
         });
         fClear.setOnAction(e -> {
             ClearHandler.handle();
@@ -154,10 +172,12 @@ public class GUI extends BorderPane {
             ReadmeGUI.handle();
         });
 
+        //Initialization
         GenerateContrastStretchHandler.initialize();
         GenerateConvolutionHandler.initialize();
         GenerateGradientHandler.initialize();
         GenerateRotateHandler.initialize();
+        GenerateMorphHandler.initialize();
         ReadmeGUI.initialize();
 
         //BorderPane
