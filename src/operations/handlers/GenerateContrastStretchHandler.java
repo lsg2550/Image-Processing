@@ -1,6 +1,6 @@
 package operations.handlers;
 
-import display.GUI;
+import display.gui.GUI;
 import java.awt.image.BufferedImage;
 import javafx.embed.swing.SwingFXUtils;
 import javafx.event.ActionEvent;
@@ -8,14 +8,13 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
-import javafx.scene.image.Image;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Region;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
-import operations.ImageIo;
+import operations.operators.ImageIo;
 
 public class GenerateContrastStretchHandler extends GUI {
 

@@ -1,10 +1,10 @@
 package operations.handlers;
 
-import display.GUI;
+import display.gui.GUI;
 import java.awt.image.BufferedImage;
 import javafx.embed.swing.SwingFXUtils;
 import javafx.event.ActionEvent;
-import operations.ImageIo;
+import operations.operators.ImageIo;
 
 public class GenerateGrayImageHandler extends GUI {
 

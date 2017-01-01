@@ -1,13 +1,14 @@
 package operations.handlers;
 
-import display.GUI;
+import display.formatting.ButtonDisplay;
+import display.gui.GUI;
 import java.io.File;
 import javafx.embed.swing.SwingFXUtils;
 import javafx.event.ActionEvent;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
 import javafx.stage.FileChooser;
-import operations.ImageIo;
+import operations.operators.ImageIo;
 
 public class UploadImageHandler extends GUI {
 
@@ -42,13 +43,12 @@ public class UploadImageHandler extends GUI {
     }
 
     private static void updateGUI() {
+        new ButtonDisplay(false, createContrastStretch, createEqualizedImage,
+                createNegativeImage, createMaskingImage, createGrayImage, 
+                createHistogram, saveImage, moveImage, clear);
         inputImageView.setImage(inputImage);
-        createNegativeImage.setVisible(true);
-        createMaskingImage.setVisible(true);
-        createHistogram.setVisible(true);
-        createGrayImage.setVisible(true);
-        contrastStretch.setVisible(true);
-        saveImage.setVisible(true);
-        clear.setVisible(true);
+        outputImageView.setImage(null);
+        bufferedImageC = null;
+        outputImage = null;
     }
 }

@@ -1,6 +1,6 @@
 package operations.handlers;
 
-import display.GUI;
+import display.gui.GUI;
 import java.io.File;
 import javafx.event.ActionEvent;
 import javafx.scene.control.Alert;

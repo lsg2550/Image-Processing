@@ -1,6 +1,6 @@
 package operations.handlers;
 
-import display.GUI;
+import display.gui.GUI;
 import java.awt.image.BufferedImage;
 import javafx.embed.swing.SwingFXUtils;
 import javafx.event.ActionEvent;
@@ -15,8 +15,8 @@ import javafx.scene.layout.TilePane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
-import operations.Histogram;
-import operations.ImageIo;
+import operations.operators.Histogram;
+import operations.operators.ImageIo;
 
 public class GenerateHistogramHandler extends GUI {
 
@@ -86,7 +86,7 @@ public class GenerateHistogramHandler extends GUI {
     private static void generateHistogram(boolean choice) {
         //Initializing
         Histogram myHist = new Histogram();
-        BufferedImage temp = null;
+        BufferedImage temp;
         if (choice == true) {
             temp = ImageIo.toGray(bufferedImage);
         } else {
@@ -95,14 +95,10 @@ public class GenerateHistogramHandler extends GUI {
 
         byte[][] grayByteData = ImageIo.getGrayByteImageArray2DFromBufferedImage(temp);
 
-        //Show Histogram
+        //Give Image and Calc Histograms
         myHist.setImageGray(grayByteData);
         myHist.calcHist();
-        int[] histogram = myHist.getHistogram();
-
-        //Normalized Histogram
         myHist.calcHistN();
-        float[] myHistN = myHist.getHistogramN();
 
         //Scale Normalized Histogram
         myHist.scaleto256();
@@ -117,7 +113,6 @@ public class GenerateHistogramHandler extends GUI {
         temp = ImageIo.setGrayByteImageArray2DToBufferedImage(grayLevelData);
         Image tempIMG = SwingFXUtils.toFXImage(temp, null);
         ImageView tempImageView = new ImageView(tempIMG);
-
         displayHUI(tempIMG, tempImageView, choice);
     }
 }

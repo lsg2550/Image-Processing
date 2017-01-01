@@ -1,11 +1,11 @@
 package operations.handlers;
 
-import display.GUI;
+import display.gui.GUI;
 import java.awt.image.BufferedImage;
 import javafx.embed.swing.SwingFXUtils;
 import javafx.event.ActionEvent;
-import operations.ImageIo;
-import operations.ImageNegative;
+import operations.operators.ImageIo;
+import operations.operators.ImageNegative;
 
 public class GenerateNegativeImageHandler extends GUI {
 
