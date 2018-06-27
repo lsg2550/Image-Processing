@@ -51,7 +51,7 @@ public class GenerateGradientHandler extends GUI {
         setOnAction(gradStage, basicGrad, basicGrad2, robertGrad, sobelGrad, prewittGrad);
 
         //Stage
-        Scene scene = new Scene(vb, 350, 100);
+        Scene scene = new Scene(vb, 450, 200);
         gradStage.setTitle("Gradient");
         gradStage.setResizable(false);
         gradStage.getIcons().add(ICON);

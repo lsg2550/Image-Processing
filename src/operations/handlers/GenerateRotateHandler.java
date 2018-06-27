@@ -36,7 +36,7 @@ public class GenerateRotateHandler extends GUI {
         //UI
         VBox vb = new VBox();
         HBox hbLabelTF = new HBox(), hbCheckBox = new HBox(5);
-        Scene scene = new Scene(vb, 250, 100);
+        Scene scene = new Scene(vb, 350, 250);
 
         //Node
         TextField tfAngle = new TextField();

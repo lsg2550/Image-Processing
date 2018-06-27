@@ -62,7 +62,7 @@ public class GenerateMorphHandler extends GUI {
         });
 
         //Stage
-        Scene scene = new Scene(vb, 350, 150);
+        Scene scene = new Scene(vb, 450, 250);
         mStage.setTitle("Morphology");
         mStage.setResizable(false);
         mStage.getIcons().add(ICON);

@@ -51,7 +51,7 @@ public class GenerateContrastStretchHandler extends GUI {
 
         //UI
         GridPane gp = new GridPane();
-        Scene scene = new Scene(gp, 300, 235);
+        Scene scene = new Scene(gp, 500, 350);
         gp.setHgap(10);
         gp.setVgap(3);
         gp.add(txt, 0, 0);

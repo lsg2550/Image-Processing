@@ -26,18 +26,14 @@ public class GenerateHistogramHandler extends GUI {
     private static Stage cStage = new Stage();
 
     public static void handle() {
+        displayChoiceGUI();
         cStage.show();
     }
-
-    public static void initialize() {
-        displayChoiceGUI();
-    }
-
+    
     private static void displayChoiceGUI() {
         //Nodes
         VBox vb = new VBox();
         TilePane tb = new TilePane(Orientation.HORIZONTAL);
-        Scene scene = new Scene(vb, 200, 50);
         Button orig = new Button("Original"), conv = new Button("Converted");
 
         //UI
@@ -62,7 +58,8 @@ public class GenerateHistogramHandler extends GUI {
             cStage.close();
         });
 
-        //Stage
+        //Scene & Stage
+        Scene scene = new Scene(vb, 250, 150);
         cStage.setTitle("Histogram");
         cStage.setResizable(false);
         cStage.getIcons().add(ICON);

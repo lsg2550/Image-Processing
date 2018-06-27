@@ -90,7 +90,7 @@ public class GenerateConvolutionHandler extends GUI {
         VBox vb = new VBox();
         HBox hb = new HBox(5);
         TilePane tp = new TilePane(Orientation.HORIZONTAL);
-        Scene scene = new Scene(vb, 475, 125);
+        Scene scene = new Scene(vb, 575, 225);
         Button maskBlur = new Button("Blur (Smoothing)"),
                 maskDerivativeH = new Button("Differentiation(Horizontal)"),
                 maskDerivativeV = new Button("Differentiation(Vertical)"),

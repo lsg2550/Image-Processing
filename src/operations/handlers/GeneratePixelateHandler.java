@@ -12,6 +12,7 @@ import operations.operators.Pixelate;
 /*
 *
 * Author: Luis
+* Pixelate Code from https://stackoverflow.com/questions/15777821/how-can-i-pixelate-a-jpg-with-java
  */
 public class GeneratePixelateHandler extends GUI {
 
@@ -36,14 +37,8 @@ public class GeneratePixelateHandler extends GUI {
             byte[][] gByteData = (byte[][]) byteArrays[1];
             byte[][] bByteData = (byte[][]) byteArrays[2];
 
-            Pixelate pixelate = new Pixelate();
-            pixelate.blurImage(rByteData, gByteData, bByteData, 48, 4);
-
-            rByteData = pixelate.getrByteData();
-            gByteData = pixelate.getgByteData();
-            bByteData = pixelate.getbByteData();
-
-            bufferedImageC = temp = ImageIo.setColorByteImageArray2DToBufferedImage(rByteData, gByteData, bByteData);
+            Pixelate pixel = new Pixelate();
+            bufferedImageC = temp = pixel.pixelate(temp, 100);
             outputImage = SwingFXUtils.toFXImage(temp, null);
             outputImageView.setImage(outputImage);
         }
