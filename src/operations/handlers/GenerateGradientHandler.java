@@ -93,7 +93,7 @@ public class GenerateGradientHandler extends GUI {
             int temp = i;
             button[i].setOnAction(e -> {
                 genGradient(temp);
-                stage.close();
+                //stage.close();
             });
         }
     }
